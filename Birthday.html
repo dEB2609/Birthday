@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('birthday-bg.jpg.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      background-color: rgba(255, 255, 255, 0.2);
+      z-index: 10;
+      transition: backdrop-filter 0.5s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h1 {
+      color: white;
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.5em;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+   .balloon {
+  position: absolute;
+  bottom: -120px;
+  width: 60px;
+  height: 85px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.1) 20%, transparent 50%), 
+              radial-gradient(circle at 70% 70%, rgba(0,0,0,0.1), transparent 60%);
+  background-color: red;
+  box-shadow: inset -4px -6px 0 rgba(0,0,0,0.2),
+              2px 6px 10px rgba(0,0,0,0.3);
+  z-index: 20;
+  animation: floatUp 3s ease-in forwards;
+  transition: transform 0.3s ease;
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 60px;
+  background-color: #444;
+}
+
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-130vh);
+        opacity: 0;
+      }
+    }
+
+    .letter-frame {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: url('93920.jpg') no-repeat center center;
+      background-size: contain;
+      width: 500px;
+      height: 700px;
+      z-index: 5;
+      display: none;
+    }
+
+    .letter-content {
+      padding: 80px 60px;
+      text-align: left;
+      font-family: 'Georgia', serif;
+      font-style: italic;
+      font-size: 1.1em;
+      line-height: 1.5;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <h1>Want a Surprise?</h1>
+    <button id="surpriseBtn">Click Here</button>
+  </div>
+
+  <div class="letter-frame" id="letterFrame">
+    <div class="letter-content">
+      <h2>To, My Bestest Sister Anee,</h2>
+      <h3>Happy Birthday to My Dearest Anneshkha! 🎉💖</h3>
+      <p>You’re not just my sister—you’re my greatest friend, my biggest support, and my forever blessing. Every day with you feels special, but today is all about celebrating YOU!</p>
+      <p>May your heart overflow with joy, your dreams shine brighter, and your year be as incredible as you are.</p>
+      <p>Stay happy and enjoy your day Cutie🌸✨😊</p>
+    </div>
+  </div>
+
+  <script>
+    const button = document.getElementById("surpriseBtn");
+    const overlay = document.getElementById("overlay");
+    const letterFrame = document.getElementById("letterFrame");
+
+    const colors = ["#FF3B30", "#FF9500", "#FFCC00", "#34C759", "#007AFF", "#AF52DE", "#FF2D55", "#00C1D4", "#FF6F61"];
+    let balloonsRemaining = 90;
+
+    button.addEventListener("click", () => {
+      overlay.innerHTML = ""; // Clear text and button
+
+      for (let i = 0; i < 90; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.backgroundColor = color;
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.animationDelay = Math.random() * 1.5 + "s";
+
+        document.body.appendChild(balloon);
+
+        balloon.addEventListener("animationend", () => {
+          balloon.remove();
+          balloonsRemaining--;
+
+          if (balloonsRemaining === 0) {
+            setTimeout(() => {
+              overlay.style.backdropFilter = "blur(0px)";
+              overlay.classList.add("hidden");
+
+              // Show the letter frame after 0.0001s (near-instant)
+              setTimeout(() => {
+                letterFrame.style.display = "block";
+              }, 0.1);
+            }, 500); // Delay after balloons vanish
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
